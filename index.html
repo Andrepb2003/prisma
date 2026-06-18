@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>Garagem Premium - Chevrolet Prisma LT 1.4</title>
+<meta name="theme-color" content="#d4af37">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{
+  --bg:#0f1419;--card:#1a2230;--card2:#222d40;--accent:#d4af37;--accent2:#f0d878;
+  --green:#2ecc71;--blue:#3498db;--red:#e74c3c;--orange:#e67e22;--purple:#b388ff;
+  --txt:#e8edf2;--txt2:#9aa7b8;--border:rgba(255,255,255,.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(135deg,#0f1419,#161e2b);color:var(--txt);min-height:100vh;padding-bottom:40px}
+.header{background:linear-gradient(135deg,#1a2230,#222d40);border-bottom:2px solid var(--accent);padding:24px 20px;box-shadow:0 4px 30px rgba(0,0,0,.4);position:sticky;top:0;z-index:50}
+.header-content{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.car-icon{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(212,175,55,.4)}
+.car-icon svg{width:36px;height:36px}
+.header h1{font-size:22px;font-weight:700;letter-spacing:.5px}
+.header .sub{color:var(--accent2);font-size:13px;font-weight:600;margin-top:2px}
+.header .badge{background:rgba(212,175,55,.15);color:var(--accent2);padding:3px 10px;border-radius:20px;font-size:11px;margin-left:6px;border:1px solid var(--accent)}
+.container{max-width:1100px;margin:0 auto;padding:24px 20px}
+.install-banner{display:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1a2230;padding:14px 18px;border-radius:12px;margin-bottom:20px;align-items:center;gap:12px;font-weight:600;cursor:pointer}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;background:var(--card);padding:8px;border-radius:14px;border:1px solid var(--border)}
+.tab{flex:1;min-width:100px;text-align:center;padding:12px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:var(--txt2);transition:.2s}
+.tab:hover{color:var(--txt)}
+.tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1a2230}
+.page{display:none}.page.active{display:block}
+.dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:.3s}
+.stat:hover{transform:translateY(-4px);border-color:var(--accent)}
+.stat::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
+.stat .ic{font-size:24px;margin-bottom:8px}
+.stat .lbl{color:var(--txt2);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.stat .val{font-size:24px;font-weight:700;margin-top:4px}
+.stat.green::before{background:var(--green)}.stat.green .val{color:var(--green)}
+.stat.blue::before{background:var(--blue)}.stat.blue .val{color:var(--blue)}
+.stat.orange::before{background:var(--orange)}.stat.orange .val{color:var(--orange)}
+.stat.purple::before{background:var(--purple)}.stat.purple .val{color:var(--purple)}
+.stat.red::before{background:var(--red)}.stat.red .val{color:var(--red)}
+.alerts{margin-bottom:24px}
+.alert{background:rgba(231,76,60,.1);border:1px solid var(--red);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:14px}
+.alert.ok{background:rgba(46,204,113,.08);border-color:var(--green)}
+.alert.warn{background:rgba(230,126,34,.1);border-color:var(--orange)}
+.section-title{display:flex;align-items:center;gap:10px;margin:28px 0 16px;font-size:18px;font-weight:700}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:28px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.field label{display:block;font-size:12px;color:var(--txt2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--txt);font-size:14px;transition:.2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,175,55,.15)}
+.field.full{grid-column:1/-1}
+.btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1a2230;border:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;transition:.2s;margin-top:18px;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,175,55,.4)}
+.btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--border)}
+.btn.cancel{background:var(--card2);color:var(--red);border:1px solid var(--red)}
+.tip{background:rgba(52,152,219,.08);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--txt2);margin-top:14px}
+.tip b{color:var(--blue)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.chip{background:var(--card2);border:1px solid var(--border);padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;transition:.2s}
+.chip:hover,.chip.active{background:var(--accent);color:#1a2230;border-color:var(--accent);font-weight:600}
+.record{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;transition:.2s;position:relative}
+.record:hover{border-color:var(--accent)}
+.record .type-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;background:var(--card2)}
+.record .info{flex:1;min-width:0}
+.record .info h3{font-size:16px;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:600}
+.tag.oleo{background:rgba(230,126,34,.2);color:var(--orange)}
+.tag.manut{background:rgba(52,152,219,.2);color:var(--blue)}
+.tag.peca{background:rgba(155,89,182,.2);color:var(--purple)}
+.tag.pneu{background:rgba(46,204,113,.2);color:var(--green)}
+.tag.outro{background:rgba(149,165,166,.2);color:#bdc3c7}
+.record .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--txt2);font-size:13px;margin-top:8px}
+.record .meta span{display:flex;align-items:center;gap:5px}
+.record .desc{margin-top:8px;font-size:14px;color:var(--txt)}
+.record .cost{font-size:18px;font-weight:700;color:var(--green);white-space:nowrap}
+.record .acts{position:absolute;top:14px;right:14px;display:flex;gap:10px}
+.record .acts button{background:none;border:none;color:var(--txt2);cursor:pointer;font-size:17px;transition:.2s}
+.record .acts .edit:hover{color:var(--accent)}
+.record .acts .del:hover{color:var(--red)}
+.empty{text-align:center;padding:50px 20px;color:var(--txt2)}
+.empty .ic{font-size:50px;margin-bottom:14px;opacity:.4}
+.export-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+footer{text-align:center;color:var(--txt2);font-size:12px;padding:30px 20px 0}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:24px}
+.bars{display:flex;align-items:flex-end;gap:12px;height:200px;margin-top:20px;border-bottom:2px solid var(--border)}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar{width:100%;max-width:50px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:6px 6px 0 0;transition:.4s;min-height:4px;position:relative}
+.bar:hover::after{content:attr(data-val);position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:var(--card2);padding:2px 8px;border-radius:6px;font-size:11px;white-space:nowrap}
+.bar-lbl{font-size:11px;color:var(--txt2);margin-top:8px}
+.doc-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px;display:flex;align-items:center;gap:16px}
+.doc-card .ic{font-size:30px}.doc-card .info{flex:1}.doc-card h3{font-size:15px}.doc-card .date-in{margin-top:8px}
+.doc-status{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:600}
+.ds-ok{background:rgba(46,204,113,.2);color:var(--green)}
+.ds-warn{background:rgba(230,126,34,.2);color:var(--orange)}
+.ds-late{background:rgba(231,76,60,.2);color:var(--red)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--green);color:#0f1419;padding:14px 24px;border-radius:12px;font-weight:700;box-shadow:0 8px 30px rgba(0,0,0,.5);transition:.35s;z-index:200}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--red);color:#fff}
+.editing-banner{background:rgba(212,175,55,.15);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--accent2);font-weight:600;display:none}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.sum-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
+.sum-card h4{font-size:13px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+.sum-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.sum-row:last-child{border-bottom:none}
+.sum-row b{color:var(--accent2)}
+@media(max-width:600px){.record{flex-direction:column}.header h1{font-size:18px}.tab{min-width:80px;font-size:12px;padding:10px 6px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="car-icon">
+      <svg viewBox="0 0 24 24" fill="#1a2230"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+    </div>
+    <div>
+      <h1>Garagem Premium <span class="badge">PRO</span></h1>
+      <div class="sub">Chevrolet Prisma LT 1.4 • Fab. 2013 / Mod. 2014</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="install-banner" id="installBanner" onclick="instalarApp()">📲 Instalar app no celular (toque aqui)</div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showPage('servicos',this)">🔧 Serviços</div>
+    <div class="tab" onclick="showPage('combustivel',this)">⛽ Combustível</div>
+    <div class="tab" onclick="showPage('resumo',this)">📊 Resumo</div>
+    <div class="tab" onclick="showPage('graficos',this)">📈 Gráficos</div>
+    <div class="tab" onclick="showPage('documentos',this)">📄 Documentos</div>
+  </div>
+
+  <!-- SERVIÇOS -->
+  <div class="page active" id="page-servicos">
+    <div class="dash">
+      <div class="stat"><div class="ic">📊</div><div class="lbl">Registros</div><div class="val" id="statTotal">0</div></div>
+      <div class="stat green"><div class="ic">💰</div><div class="lbl">Gasto Total</div><div class="val" id="statGasto">R$ 0</div></div>
+      <div class="stat blue"><div class="ic">🛣️</div><div class="lbl">KM Atual</div><div class="val" id="statKm">—</div></div>
+      <div class="stat orange"><div class="ic">🛢️</div><div class="lbl">Próx. Troca Óleo</div><div class="val" id="statOleo" style="font-size:16px">—</div></div>
+    </div>
+    <div class="alerts" id="alerts"></div>
+    <div class="section-title">➕ Registrar Serviço</div>
+    <div class="form-card">
+      <div class="editing-banner" id="editBanner">✏️ Editando registro existente</div>
+      <div class="form-grid">
+        <div class="field"><label>Tipo</label>
+          <select id="tipo">
+            <option value="oleo">🛢️ Troca de Óleo</option>
+            <option value="manut">🔧 Manutenção</option>
+            <option value="peca">⚙️ Troca de Peça</option>
+            <option value="pneu">🛞 Pneus / Alinhamento</option>
+            <option value="outro">📋 Outro</option>
+          </select>
+        </div>
+        <div class="field"><label>Título</label><input type="text" id="titulo" placeholder="Ex: Troca de óleo e filtro"></div>
+        <div class="field"><label>Data</label><input type="date" id="data"></div>
+        <div class="field"><label>Quilometragem (km)</label><input type="number" id="km" placeholder="Ex: 85000" min="0"></div>
+        <div class="field"><label>Custo (R$)</label><input type="number" id="custo" placeholder="Ex: 250.00" step="0.01" min="0"></div>
+        <div class="field"><label>Local / Oficina</label><input type="text" id="local" placeholder="Ex: Oficina do João"></div>
+        <div class="field full"><label>Detalhes</label><textarea id="detalhes" rows="2" placeholder="Ex: Óleo 5W30 sintético, filtro Tecfil"></textarea></div>
+      </div>
+      <button class="btn" id="saveBtn" onclick="addRecord()">💾 Salvar Registro</button>
+      <button class="btn cancel" id="cancelBtn" style="display:none" onclick="cancelEdit()">✖ Cancelar</button>
+      <div class="tip"><b>💡 Prisma 1.4:</b> Óleo <b>5W30 sintético</b> a cada 10.000 km. Filtros 15.000 km. Velas 40.000 km. Correia dentada: verificar aos 60.000 km.</div>
+    </div>
+    <div class="section-title">📜 Histórico</div>
+    <div class="export-bar">
+      <button class="btn sec" onclick="exportData()">⬇️ Backup</button>
+      <button class="btn sec" onclick="document.getElementById('importFile').click()">⬆️ Importar</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn sec" onclick="window.print()">🖨️ PDF</button>
+    </div>
+    <div class="filters">
+      <div class="chip active" onclick="setFilter('all',this)">Todos</div>
+      <div class="chip" onclick="setFilter('oleo',this)">🛢️ Óleo</div>
+      <div class="chip" onclick="setFilter('manut',this)">🔧 Manutenção</div>
+      <div class="chip" onclick="setFilter('peca',this)">⚙️ Peças</div>
+      <div class="chip" onclick="setFilter('pneu',this)">🛞 Pneus</div>
+      <div class="chip" onclick="setFilter('outro',this)">📋 Outros</div>
+    </div>
+    <div id="recordsList"></div>
+  </div>
+
+  <!-- COMBUSTÍVEL -->
+  <div class="page" id="page-combustivel">
+    <div class="dash">
+      <div class="stat blue"><div class="ic">⛽</div><div class="lbl">Abastecimentos</div><div class="val" id="fTotal">0</div></div>
+      <div class="stat green"><div class="ic">📉</div><div class="lbl">Consumo Médio</div><div class="val" id="fMedia">—</div></div>
+      <div class="stat orange"><div class="ic">💵</div><div class="lbl">Gasto Combustível</div><div class="val" id="fGasto">R$ 0</div></div>
+      <div class="stat purple"><div class="ic">🏷️</div><div class="lbl">Preço Médio/L</div><div class="val" id="fPreco">—</div></div>
+    </div>
+    <div class="section-title">⛽ Registrar Abastecimento</div>
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="field"><label>Data</label><input type="date" id="fData"></div>
+        <div class="field"><label>KM no painel</label><input type="number" id="fKm" placeholder="Ex: 86000" min="0"></div>
+        <div class="field"><label>Litros</label><input type="number" id="fLitros" placeholder="Ex: 38.5" step="0.01" min="0"></div>
+        <div class="field"><label>Valor Total (R$)</label><input type="number" id="fValor" placeholder="Ex: 220.00" step="0.01" min="0"></div>
+        <div class="field"><label>Combustível</label>
+          <select id="fTipo"><option>Gasolina</option><option>Etanol</option><option>Aditivada</option></select>
+        </div>
+        <div class="field"><label>Posto</label><input type="text" id="fPosto" placeholder="Ex: Posto Shell"></div>
+      </div>
+      <button class="btn" onclick="addFuel()">⛽ Salvar Abastecimento</button>
+      <div class="tip"><b>💡 Consumo:</b> Calculado automaticamente entre abastecimentos. Sempre <b>encha o tanque</b> e registre o KM.</div>
+    </div>
+    <div class="section-title">📜 Histórico de Abastecimentos</div>
+    <div id="fuelList"></div>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="page" id="page-resumo">
+    <div class="section-title">📊 Resumo Geral</div>
+    <div class="summary-grid">
+      <div class="sum-card">
+        <h4>💸 Custos</h4>
+        <div class="sum-row"><span>Serviços</span><b id="rServ">R$ 0</b></div>
+        <div class="sum-row"><span>Combustível</span><b id="rComb">R$ 0</b></div>
+        <div class="sum-row"><span>Total geral</span><b id="rTotal">R$ 0</b></div>
+        <div class="sum-row"><span>Custo por km rodado</span><b id="rKmCusto">—</b></div>
+      </div>
+      <div class="sum-card">
+        <h4>🛣️ Rodagem</h4>
+        <div class="sum-row"><span>KM atual</span><b id="rKmAtual">—</b></div>
+        <div class="sum-row"><span>KM total rodado*</span><b id="rKmRodado">—</b></div>
+        <div class="sum-row"><span>Consumo médio</span><b id="rConsumo">—</b></div>
+        <div class="sum-row"><span>Gasto médio/mês</span><b id="rMes">—</b></div>
+      </div>
+      <div class="sum-card">
+        <h4>🛢️ Manutenção</h4>
+        <div class="sum-row"><span>Trocas de óleo</span><b id="rOleos">0</b></div>
+        <div class="sum-row"><span>Última troca</span><b id="rUltOleo">—</b></div>
+        <div class="sum-row"><span>Próxima em</span><b id="rProxOleo">—</b></div>
+        <div class="sum-row"><span>Abastecimentos</span><b id="rAbast">0</b></div>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:18px">*KM total rodado é calculado entre o menor e o maior KM registrado.</div>
+  </div>
+
+  <!-- GRÁFICOS -->
+  <div class="page" id="page-graficos">
+    <div class="section-title">📈 Gastos por Mês (Serviços + Combustível)</div>
+    <div class="chart-card"><div class="bars" id="chartBars"></div></div>
+    <div class="section-title">🥧 Gastos por Categoria</div>
+    <div class="chart-card" id="catChart"></div>
+  </div>
+
+  <!-- DOCUMENTOS -->
+  <div class="page" id="page-documentos">
+    <div class="section-title">📄 Lembretes de Documentos</div>
+    <div class="tip" style="margin-bottom:20px"><b>ℹ️</b> Cadastre os vencimentos. O app avisa quando estiver próximo (30 dias) ou vencido.</div>
+    <div id="docsList"></div>
+  </div>
+
+</div>
+
+<footer>🚗 Garagem Premium • Dados salvos só neste dispositivo • Faça backups!</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const TIPOS={oleo:{nome:'Troca de Óleo',icon:'🛢️',tag:'oleo'},manut:{nome:'Manutenção',icon:'🔧',tag:'manut'},peca:{nome:'Troca de Peça',icon:'⚙️',tag:'peca'},pneu:{nome:'Pneus/Alinhamento',icon:'🛞',tag:'pneu'},outro:{nome:'Outro',icon:'📋',tag:'outro'}};
+let registros=JSON.parse(localStorage.getItem('prisma_servicos')||'[]');
+let abast=JSON.parse(localStorage.getItem('prisma_fuel')||'[]');
+let docs=JSON.parse(localStorage.getItem('prisma_docs')||'null')||[
+  {nome:'IPVA',icon:'🏛️',venc:''},{nome:'Licenciamento',icon:'📋',venc:''},
+  {nome:'Seguro',icon:'🛡️',venc:''},{nome:'Revisão',icon:'🔧',venc:''}
+];
+let filtroAtual='all',editId=null;
+document.getElementById('data').valueAsDate=new Date();
+document.getElementById('fData').valueAsDate=new Date();
+
+function save(){localStorage.setItem('prisma_servicos',JSON.stringify(registros));}
+function saveF(){localStorage.setItem('prisma_fuel',JSON.stringify(abast));}
+function saveD(){localStorage.setItem('prisma_docs',JSON.stringify(docs));}
+function toast(msg,err){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(err?' err':'');setTimeout(()=>t.className='toast',2500);}
+function showPage(p,el){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');el.classList.add('active');if(p==='graficos')renderChart();if(p==='documentos')renderDocs();if(p==='combustivel')renderFuel();if(p==='resumo')renderResumo();}
+function fmtData(d){if(!d)return '—';const[y,m,day]=d.split('-');return`${day}/${m}/${y}`;}
+function fmtMoney(v){return 'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2});}
+
+function addRecord(){
+  const tipo=val('tipo'),titulo=val('titulo').trim(),data=val('data'),km=val('km'),
+  custo=parseFloat(val('custo'))||0,local=val('local').trim(),detalhes=val('detalhes').trim();
+  if(!titulo){toast('Informe o título.',1);return;}
+  if(!data){toast('Informe a data.',1);return;}
+  if(editId){
+    const r=registros.find(x=>x.id===editId);
+    Object.assign(r,{tipo,titulo,data,km,custo,local,detalhes});
+    toast('Registro atualizado!');editId=null;
+  }else{
+    registros.push({id:Date.now(),tipo,titulo,data,km,custo,local,detalhes});
+    toast('Registro salvo!');
+  }
+  save();resetForm();render();
+}
+function val(id){return document.getElementById(id).value;}
+function resetForm(){['titulo','km','custo','local','detalhes'].forEach(i=>document.getElementById(i).value='');document.getElementById('saveBtn').textContent='💾 Salvar Registro';document.getElementById('cancelBtn').style.display='none';document.getElementById('editBanner').style.display='none';editId=null;}
+function cancelEdit(){resetForm();}
+function editRecord(id){
+  const r=registros.find(x=>x.id===id);if(!r)return;editId=id;
+  document.getElementById('tipo').value=r.tipo;document.getElementById('titulo').value=r.titulo;
+  document.getElementById('data').value=r.data;document.getElementById('km').value=r.km||'';
+  document.getElementById('custo').value=r.custo||'';document.getElementById('local').value=r.local||'';
+  document.getElementById('detalhes').value=r.detalhes||'';
+  document.getElementById('saveBtn').textContent='💾 Atualizar';
+  document.getElementById('cancelBtn').style.display='inline-flex';
+  document.getElementById('editBanner').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function delRecord(id){if(confirm('Excluir registro?')){registros=registros.filter(r=>r.id!==id);save();render();toast('Registro excluído!');}}
+function setFilter(f,el){filtroAtual=f;document.querySelectorAll('#page-servicos .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');render();}
+
+function todosKm(){return registros.filter(r=>r.km).map(r=>parseInt(r.km)).concat(abast.filter(a=>a.km).map(a=>parseInt(a.km)));}
+
+function render(){
+  const ord=[...registros].sort((a,b)=>(b.data+b.id).localeCompare(a.data+a.id));
+  document.getElementById('statTotal').textContent=registros.length;
+  document.getElementById('statGasto').textContent=fmtMoney(registros.reduce((s,r)=>s+(parseFloat(r.custo)||0),0));
+  const kms=todosKm();
+  document.getElementById('statKm').textContent=kms.length?Math.max(...kms).toLocaleString('pt-BR')+' km':'—';
+  const oleos=registros.filter(r=>r.tipo==='oleo'&&r.km).sort((a,b)=>parseInt(b.km)-parseInt(a.km));
+  if(oleos.length){const prox=parseInt(oleos[0].km)+10000;document.getElementById('statOleo').textContent=prox.toLocaleString('pt-BR')+' km';}
+  else document.getElementById('statOleo').textContent='—';
+  renderAlerts(oleos,kms);
+  const filtrados=ord.filter(r=>filtroAtual==='all'||r.tipo===filtroAtual);
+  const list=document.getElementById('recordsList');
+  if(!filtrados.length){list.innerHTML=`<div class="empty"><div class="ic">📭</div><p>Nenhum registro.<br>Adicione acima!</p></div>`;return;}
+  list.innerHTML=filtrados.map(r=>{const t=TIPOS[r.tipo];return`<div class="record"><div class="type-icon">${t.icon}</div><div class="info"><h3>${r.titulo} <span class="tag ${t.tag}">${t.nome}</span></h3><div class="meta"><span>📅 ${fmtData(r.data)}</span>${r.km?`<span>🛣️ ${parseInt(r.km).toLocaleString('pt-BR')} km</span>`:''}${r.local?`<span>📍 ${r.local}</span>`:''}</div>${r.detalhes?`<div class="desc">${r.detalhes}</div>`:''}</div><div class="cost">${r.custo>0?fmtMoney(r.custo):''}</div><div class="acts"><button class="edit" onclick="editRecord(${r.id})">✏️</button><button class="del" onclick="delRecord(${r.id})">🗑️</button></div></div>`;}).join('');
+}
+function renderAlerts(oleos,kms){
+  const box=document.getElementById('alerts');let html='';const kmAtual=kms.length?Math.max(...kms):null;
+  if(oleos.length&&kmAtual){const ult=oleos[0];const rodado=kmAtual-parseInt(ult.km),falta=10000-rodado;
+    if(falta<=0)html+=`<div class="alert">⚠️ <b>Troca de óleo VENCIDA!</b> Já rodou ${rodado.toLocaleString('pt-BR')} km desde a última.</div>`;
+    else if(falta<=1500)html+=`<div class="alert warn">🔔 Troca de óleo próxima — faltam ~<b>${falta.toLocaleString('pt-BR')} km</b>.</div>`;
+    else html+=`<div class="alert ok">✅ Óleo em dia — faltam ~${falta.toLocaleString('pt-BR')} km.</div>`;
+  }else if(!registros.length)html=`<div class="alert ok">👋 Bem-vindo, Josinaldo! Registre o primeiro serviço.</div>`;
+  box.innerHTML=html;
+}
+
+function addFuel(){const data=val('fData'),km=parseInt(val('fKm'))||0,litros=parseFloat(val('fLitros'))||0,valor=parseFloat(val('fValor'))||0,tipo=val('fTipo'),posto=document.getElementById('fPosto').value.trim();if(!data||!km||!litros){toast('Preencha data, KM e litros.',1);return;}abast.push({id:Date.now(),data,km,litros,valor,tipo,posto});saveF();['fKm','fLitros','fValor','fPosto'].forEach(i=>document.getElementById(i).value='');renderFuel();toast('Abastecimento salvo!');}
+function delFuel(id){if(confirm('Excluir?')){abast=abast.filter(a=>a.id!==id);saveF();renderFuel();toast('Excluído!');}}
+function renderFuel(){const ord=[...abast].sort((a,b)=>b.km-a.km);document.getElementById('fTotal').textContent=abast.length;document.getElementById('fGasto').textContent=fmtMoney(abast.reduce((s,a)=>s+a.valor,0));const totL=abast.reduce((s,a)=>s+a.litros,0),totV=abast.reduce((s,a)=>s+a.valor,0);document.getElementById('fPreco').textContent=totL?fmtMoney(totV/totL):'—';const sortKm=[...abast].sort((a,b)=>a.km-b.km);let totKm=0,totLit=0;for(let i=1;i<sortKm.length;i++){totKm+=sortKm[i].km-sortKm[i-1].km;totLit+=sortKm[i].litros;}document.getElementById('fMedia').textContent=totLit?(totKm/totLit).toFixed(1)+' km/L':'—';const list=document.getElementById('fuelList');if(!abast.length){list.innerHTML=`<div class="empty"><div class="ic">⛽</div><p>Nenhum abastecimento.</p></div>`;return;}list.innerHTML=ord.map(a=>{const idx=sortKm.findIndex(x=>x.id===a.id);const prev=sortKm[idx-1];const cons=prev?((a.km-prev.km)/a.litros).toFixed(1)+' km/L':'—';return`<div class="record"><div class="type-icon">⛽</div><div class="info"><h3>${a.tipo} <span class="tag pneu">${cons}</span></h3><div class="meta"><span>📅 ${fmtData(a.data)}</span><span>🛣️ ${a.km.toLocaleString('pt-BR')} km</span><span>💧 ${a.litros} L</span>${a.posto?`<span>📍 ${a.posto}</span>`:''}</div></div><div class="cost">${fmtMoney(a.valor)}</div><div class="acts"><button class="del" onclick="delFuel(${a.id})">🗑️</button></div></div>`;}).join('');}
+
+function renderResumo(){
+  const gServ=registros.reduce((s,r)=>s+(parseFloat(r.custo)||0),0);
+  const gComb=abast.reduce((s,a)=>s+a.valor,0);
+  const total=gServ+gComb;
+  const kms=todosKm();
+  const kmAtual=kms.length?Math.max(...kms):0;
+  const kmRodado=kms.length?Math.max(...kms)-Math.min(...kms):0;
+  document.getElementById('rServ').textContent=fmtMoney(gServ);
+  document.getElementById('rComb').textContent=fmtMoney(gComb);
+  document.getElementById('rTotal').textContent=fmtMoney(total);
+  document.getElementById('rKmCusto').textContent=kmRodado?fmtMoney(total/kmRodado)+'/km':'—';
+  document.getElementById('rKmAtual').textContent=kmAtual?kmAtual.toLocaleString('pt-BR')+' km':'—';
+  document.getElementById('rKmRodado').textContent=kmRodado?kmRodado.toLocaleString('pt-BR')+' km':'—';
+  const sortKm=[...abast].sort((a,b)=>a.km-b.km);let tk=0,tl=0;for(let i=1;i<sortKm.length;i++){tk+=sortKm[i].km-sortKm[i-1].km;tl+=sortKm[i].litros;}
+  document.getElementById('rConsumo').textContent=tl?(tk/tl).toFixed(1)+' km/L':'—';
+  const datas=[...registros.map(r=>r.data),...abast.map(a=>a.data)].filter(Boolean).sort();
+  let meses=1;if(datas.length>1){const d1=new Date(datas[0]),d2=new Date(datas[datas.length-1]);meses=Math.max(1,(d2.getFullYear()-d1.getFullYear())*12+(d2.getMonth()-d1.getMonth())+1);}
+  document.getElementById('rMes').textContent=fmtMoney(total/meses);
+  const oleos=registros.filter(r=>r.tipo==='oleo'&&r.km).sort((a,b)=>parseInt(b.km)-parseInt(a.km));
+  document.getElementById('rOleos').textContent=registros.filter(r=>r.tipo==='oleo').length;
+  document.getElementById('rUltOleo').textContent=oleos.length?fmtData(oleos[0].data):'—';
+  document.getElementById('rProxOleo').textContent=oleos.length?(parseInt(oleos[0].km)+10000).toLocaleString('pt-BR')+' km':'—';
+  document.getElementById('rAbast').textContent=abast.length;
+}
+
+function renderChart(){const meses={};registros.forEach(r=>{if(r.data){const k=r.data.slice(0,7);meses[k]=(meses[k]||0)+(parseFloat(r.custo)||0);}});abast.forEach(a=>{if(a.data){const k=a.data.slice(0,7);meses[k]=(meses[k]||0)+(a.valor||0);}});const keys=Object.keys(meses).sort().slice(-6),max=Math.max(...keys.map(k=>meses[k]),1);const bars=document.getElementById('chartBars');if(!keys.length){bars.innerHTML='<div class="empty" style="width:100%"><div class="ic">📊</div><p>Sem dados ainda.</p></div>';}else bars.innerHTML=keys.map(k=>{const[y,m]=k.split('-');const h=(meses[k]/max*100);return`<div class="bar-wrap"><div class="bar" style="height:${h}%" data-val="${fmtMoney(meses[k])}"></div><div class="bar-lbl">${m}/${y.slice(2)}</div></div>`;}).join('');const cats={};registros.forEach(r=>{cats[TIPOS[r.tipo].nome]=(cats[TIPOS[r.tipo].nome]||0)+(parseFloat(r.custo)||0);});const totalFuel=abast.reduce((s,a)=>s+a.valor,0);if(totalFuel)cats['Combustível']=totalFuel;const cc=document.getElementById('catChart');const tot=Object.values(cats).reduce((s,v)=>s+v,0);if(!tot){cc.innerHTML='<div class="empty"><div class="ic">🥧</div><p>Sem dados.</p></div>';return;}const cores=['#e67e22','#3498db','#b388ff','#2ecc71','#bdc3c7','#d4af37'];cc.innerHTML=Object.entries(cats).map(([n,v],i)=>{const p=(v/tot*100).toFixed(1);return`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>${n}</span><span><b>${fmtMoney(v)}</b> (${p}%)</span></div><div style="background:var(--card2);border-radius:8px;height:14px;overflow:hidden"><div style="width:${p}%;height:100%;background:${cores[i%cores.length]};border-radius:8px"></div></div></div>`;}).join('');}
+function renderDocs(){const list=document.getElementById('docsList');const hoje=new Date();list.innerHTML=docs.map((d,i)=>{let status='',cls='';if(d.venc){const v=new Date(d.venc+'T00:00');const dias=Math.ceil((v-hoje)/86400000);if(dias<0){status=`Vencido há ${-dias} dias`;cls='ds-late';}else if(dias<=30){status=`Vence em ${dias} dias`;cls='ds-warn';}else{status=`OK (${dias} dias)`;cls='ds-ok';}}else{status='Não cadastrado';cls='ds-warn';}return`<div class="doc-card"><div class="ic">${d.icon}</div><div class="info"><h3>${d.nome}</h3><div class="date-in"><input type="date" value="${d.venc}" onchange="setDoc(${i},this.value)" style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--txt)"></div></div><span class="doc-status ${cls}">${status}</span></div>`;}).join('');}
+function setDoc(i,v){docs[i].venc=v;saveD();renderDocs();toast('Documento atualizado!');}
+function exportData(){const all={servicos:registros,combustivel:abast,documentos:docs};const blob=new Blob([JSON.stringify(all,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-prisma-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast('Backup gerado!');}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(confirm('Importar backup? Substituirá os dados atuais.')){if(Array.isArray(d)){registros=d;}else{registros=d.servicos||[];abast=d.combustivel||[];if(d.documentos)docs=d.documentos;}save();saveF();saveD();render();toast('Backup importado!');}}catch{toast('Arquivo inválido.',1);}};r.readAsText(f);}
+render();
+
+/* ===== PWA 100% EMBUTIDO (sem arquivos externos) ===== */
+const ICON='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjkwIiBmaWxsPSIjMGYxNDE5Ii8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxNzAiIGZpbGw9IiNkNGFmMzciLz48cGF0aCBmaWxsPSIjMWEyMjMwIiBkPSJNMzgxIDIwMmMtNC0xMy0xNi0yMi0zMC0yMkgxNjFjLTE0IDAtMjYgOS0zMCAyMmwtNDQgMTI4djE3MmMwIDEyIDEwIDIyIDIyIDIyaDIyYzEyIDAgMjItMTAgMjItMjJ2LTIyaDI1NHYyMmMwIDEyIDEwIDIyIDIyIDIyaDIyYzEyIDAgMjItMTAgMjItMjJWMzMwbC00NC0xMjh6TTE0MSAzNDRjLTE4IDAtMzItMTQtMzItMzJzMTQtMzIgMzItMzIgMzIgMTQgMzIgMzItMTQgMzItMzIgMzJ6bTIzMCAwYy0xOCAwLTMyLTE0LTMyLTMyczE0LTMyIDMyLTMyIDMyIDE0IDMyIDMyLTE0IDMyLTMyIDMyek0xMTUgMjY0bDMyLTk2aDIxOGwzMiA5NkgxMTV6Ii8+PC9zdmc+';
+const manifest={name:'Garagem Premium',short_name:'Garagem',description:'Controle do Chevrolet Prisma LT 1.4',start_url:'.',display:'standalone',orientation:'portrait',background_color:'#0f1419',theme_color:'#d4af37',icons:[{src:ICON,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
+const manifestBlob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+const mlink=document.createElement('link');mlink.rel='manifest';mlink.href=URL.createObjectURL(manifestBlob);document.head.appendChild(mlink);
+const ilink=document.createElement('link');ilink.rel='apple-touch-icon';ilink.href=ICON;document.head.appendChild(ilink);
+
+/* Service Worker embutido (cache offline do próprio app) */
+if('serviceWorker' in navigator){
+  const swCode=`
+    const C='garagem-v1';
+    self.addEventListener('install',e=>{self.skipWaiting();});
+    self.addEventListener('activate',e=>{e.waitUntil(clients.claim());});
+    self.addEventListener('fetch',e=>{
+      if(e.request.mode==='navigate'){
+        e.respondWith(caches.open(C).then(c=>fetch(e.request).then(r=>{c.put(e.request,r.clone());return r;}).catch(()=>c.match(e.request)||caches.match('./'))));
+      }
+    });
+  `;
+  const swBlob=new Blob([swCode],{type:'text/javascript'});
+  const swURL=URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swURL).catch(()=>{});
+}
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBanner').style.display='flex';});
+function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('installBanner').style.display='none';});}else{toast('Use o menu do navegador → "Adicionar à tela inicial".');}}
+window.addEventListener('appinstalled',()=>{document.getElementById('installBanner').style.display='none';toast('App instalado! 🎉');});
+</script>
+</body>
+</html>
